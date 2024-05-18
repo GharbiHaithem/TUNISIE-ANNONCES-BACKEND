@@ -18,7 +18,7 @@ const app = express()
 app.use(express.static(path.join(__dirname, '../tunisie-troc/dist')));
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Remplacez ceci par l'URL de votre client React
+    origin: 'https://tunisian-troc.onrender.com/', // Remplacez ceci par l'URL de votre client React
     credentials: true,
   }));
   
