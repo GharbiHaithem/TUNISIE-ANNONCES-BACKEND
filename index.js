@@ -18,7 +18,7 @@ const app = express()
 app.use(express.static(path.join(__dirname, '../tunisie-troc/dist')));
 
 app.use(cors({
-    origin: 'https://tunisian-troc.onrender.com/', // Remplacez ceci par l'URL de votre client React
+    origin: 'http://localhost:5173', // Remplacez ceci par l'URL de votre client React
     credentials: true,
   }));
   
@@ -48,9 +48,9 @@ const storage = multer.memoryStorage();
  app.use('/api',upload.array('images',11),uploadRoute)
  app.use('/api',annonceRoute)
 
- app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../tunisie-troc/dist/index.html'));
-  });
+//  app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../tunisie-troc/dist/index.html'));
+//   });
   
 app.listen(PORT, ()=>{
     console.log(`server is running at PORT ${PORT}`)
