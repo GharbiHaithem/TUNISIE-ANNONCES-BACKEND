@@ -26,7 +26,18 @@ const Annonce = new mongoose.Schema({
         require:true
     },
     proposition:String,
-    prix:Number
+    prix:Number,
+    caracteristique_details:{
+        constructeur:{type:String, required:false},
+        model:{type:String, required:false},
+        kilometrage:{type:Number, required:false},
+        carburant:{type:String, required:false},
+        couleur:{type:String, required:false},
+        boitevitesse:{type:String, required:false},
+        cylindre:{type:String, required:false},
+        type:{type:String, required:false},
+        nbProprietairePrecedent:{type:Number, required:false},
+    }
 },{
     timestamps:true
 }) 

@@ -56,6 +56,44 @@ const annonceCtrl = {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+    },
+    updateAnnonces: async(req,res)=>{
+        try {
+            const { id } = req.params;
+            
+            // Vérification de l'ID
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: 'Invalid ID format' });
+            }
+            
+            // Mise à jour de l'annonce
+            const updatedAnnonce = await Annonce.findByIdAndUpdate(id, req.body, {
+                new: true, 
+                upsert: true,
+                runValidators: true // Pour s'assurer que les nouvelles données respectent le schéma
+            });
+    
+            if (!updatedAnnonce) {
+                return res.status(404).json({ message: 'Annonce not found' });
+            }
+    
+            res.status(200).json(updatedAnnonce);
+        } catch (error) {
+            console.error('Error updating annonce:', error); // Log l'erreur pour le débogage
+            res.status(500).json({ message: error.message });
+        }
+    },
+    deleteImageAnnonce: async(req,res)=>{
+        try {
+            const {annonceId , public_id} = req.params
+           const delImgAnnonce = await Annonce.findByIdAndUpdate(annonceId,{$pull:{image_annonce:{public_id}}},{new:true}) 
+        if(!delImgAnnonce){
+            res.status(404).json({message:'annonce non trouvé'})
+        }
+        res.status(200).json(delImgAnnonce)
+        } catch (error) {
+            res.status(500).json({message:error.message}) 
+        }
     }
 }
 module.exports=annonceCtrl
