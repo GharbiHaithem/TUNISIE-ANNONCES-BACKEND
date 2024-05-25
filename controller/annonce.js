@@ -14,7 +14,14 @@ const annonceCtrl = {
     },
     getAllAnnonce : async(req,res)=>{
         try {
-            const annonces = await Annonce.find({}).populate('createdBy rubrique')
+            const limit = req.query.limit|| 6;
+            const annonces = await Annonce.find({}).populate('createdBy rubrique').populate({
+                path:'rubrique',
+                populate:{
+                    path:'parentID',
+                    model:'Category'
+                }
+            }).limit(limit)   
             res.status(201).json(annonces)
         } catch (error) {
             res.status(500).json({message:error.message})
@@ -46,7 +53,13 @@ const annonceCtrl = {
         }
 
         // Maintenant, vous pouvez exécuter la requête MongoDB
-        const annonce = await Annonce.findOne({ _id: id }).populate('createdBy rubrique');
+        const annonce = await Annonce.findOne({ _id: id }).populate('createdBy rubrique').populate({
+            path:'rubrique',
+            populate:{
+                path:'parentID',
+                model:'Category'
+            }
+        }) 
 
         if (!annonce) {
             return res.status(404).json({ message: "Annonce non trouvée" });
@@ -93,6 +106,24 @@ const annonceCtrl = {
         res.status(200).json(delImgAnnonce)
         } catch (error) {
             res.status(500).json({message:error.message}) 
+        }
+    },
+    getAnnoncesByUser:async(req,res)=>{
+        try {
+         const {userid} = req.params
+         const annonces =await Annonce.find({createdBy:userid}).populate('rubrique').populate({
+            path:'rubrique',
+            populate:{
+                path:'parentID',
+                model:'Category'
+            }
+        })   
+         if(!annonces){
+            res.status(404).json({message: "Pas d 'annonce dans  la magasin"})
+         }   
+         res.status(200).json(annonces)
+        } catch (error) {
+            res.status(500).json({message:error.message})  
         }
     }
 }

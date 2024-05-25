@@ -43,7 +43,7 @@ passwordResetExpires:Date,
 passwordClaire : String,
 description:String,
 code: Number,
-anniverssaire :Date
+dateNaissance :Date
 },{
     timestamps:true
 })

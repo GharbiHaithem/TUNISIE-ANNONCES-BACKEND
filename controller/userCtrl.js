@@ -122,9 +122,7 @@ const userCtrl = {
 
             res.json({
                 _id: findUser._id,
-                firstname: findUser.firstname,
-                lastname: findUser.lastname,
-                email: findUser.email,
+             
                 address: findUser.address,
                 token,
                 pseudo:findUser.pseudo,
